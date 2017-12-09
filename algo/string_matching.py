@@ -86,6 +86,96 @@ def boyer_moore(text, pattern, length_text, length_pattern):
             j = length_pattern - 1
     return -1
 
+# It will return the index number if the pattern is found in the text, otherwise it returns -1.
+def kmp(text, pattern, length_text, length_pattern):
+    if length_text < length_pattern:
+        return -1
+    prefix = [0]*length_pattern
+    j = 0
+
+    # Prefix Table
+    for i in range(1, length_pattern):
+        if pattern[i]==pattern[j]:
+            prefix[i]=j+1
+            j+=1
+        else:
+            if j==0:
+                prefix[i]=0
+            else:
+                j = prefix[j-1]
+                while True:
+                    if pattern[j]==pattern[i]:
+                        prefix[i]=j+1
+                        break
+                    elif j==0:
+                        prefix[i]=0
+                        break
+                    else:
+                        j = prefix[j-1]
+
+    #String Matching
+    j = i = 0
+    while i<length_text:
+        if text[i]==pattern[j]:
+            j+=1
+            i+=1
+            if j==length_pattern:
+                return i
+        else:
+            if j>0:
+                j = prefix[j-1]
+            else:
+                i+=1
+    return -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
