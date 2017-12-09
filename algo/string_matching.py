@@ -61,7 +61,30 @@ def rabin_karp(text, pattern, length_text, length_pattern):
                 return i
     return -1
 
+#It returns index number if pattern is found, otherwise returns -1.
+def boyer_moore(text, pattern, length_text, length_pattern):
+    lookup = [0]*150
 
+    for i in range(length_pattern-1, -1, -1):
+        lookup[ord(pattern[i])] = max(lookup[ord(pattern[i])], i)
+
+    for j in range(length_text-1, -1, -1):
+        if lookup[ord(text[j])] == 0:
+            lookup[ord(text[j])] = -1
+
+    i = j = length_pattern - 1
+
+    while i<length_text:
+        if pattern[j] == text[i]:
+            if j==0:
+                return i
+            else:
+                i-=1
+                j-=1
+        else:
+            i = i + length_pattern - min(j, 1+lookup([ord(text[i])]))
+            j = length_pattern - 1
+    return -1
 
 
 
